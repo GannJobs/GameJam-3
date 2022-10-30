@@ -54,6 +54,15 @@ function RangeSword(a, b, Vax, Vay, Vb)
     end
 end
 
+function Range2(a, b, Vax, Vay, Vbx, VbY)
+    local DistVetores = math.sqrt((Vax-Vbx)^2 + (Vay-VbY)^2)
+    if a + b >= DistVetores then
+        return true
+    else 
+        return false
+    end
+end
+
 function MouseSelection(a, b, x, y)
     local mx, my = love.mouse.getPosition()
     if mx >= x and mx <= x + a and my >= y and my <= y + b then

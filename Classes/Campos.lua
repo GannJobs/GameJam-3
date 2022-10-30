@@ -84,7 +84,7 @@ function Campos:update(dt)
 
     for i = 1, 6 do
 
-        if MouseSelection(self.slots[i].Swidth, self.slots[i].Sheight, self.slots[i].Sx, self.slots[i].Sy) then
+        if MouseSelection(self.slots[i].Swidth, self.slots[i].Sheight, self.slots[i].Sx, self.slots[i].Sy)then
             print("encima da casa ".. i)
             if love.mouse.isDown(1, 2, 3) then
                 self.selecao = true
@@ -92,15 +92,17 @@ function Campos:update(dt)
                 print("abrir selecao da casa"..self.escolha)
             end
         else
-            if love.mouse.isDown(1, 2, 3) and self.selecao then
-                print("fechar selecao da casa"..self.escolha)
-                self.selecao = false
+            if self.selecao and not(Range2(1, self.raioS, love.mouse.getX(), love.mouse.getY(), self.slots[self.escolha].Sx, self.slots[self.escolha].Sy)) then
+                if love.mouse.isDown(1, 2, 3) then
+                    print("fechar selecao da casa"..self.escolha)
+                    self.selecao = false
+                end
             end
         end
     end
 
-        if self.selecao then
-            if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty)then
+        if self.selecao and not(self.opcoes[self.escolha].criada) then
+            if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty) and not(self.opcoes[self.escolha].criada) then
                 print("encima da escolha do slot "..self.escolha)
                 if love.mouse.isDown(1, 2, 3) and hero.dinheiro >= 80 then
                     hero.dinheiro = hero.dinheiro - 80
@@ -119,6 +121,10 @@ function Campos:update(dt)
                     self.escolha = 0
                 end
             end
+        else
+            self.selecao = false
+            print("Logo vem o Up...")
+            self.escolha = 0
         end
 
     -- ataque de torre
@@ -129,7 +135,7 @@ function Campos:update(dt)
         if Range(self.opcoes[i].Traio, enemy.raio, self.opcoes[i].Vrange, enemy.V) then
             print("no range")
             if cont > 1 and enemy.vida > 0 then -- damage
-                enemy.vida = enemy.vida - 8
+                enemy.vida = enemy.vida - 12
                 cont = 0
             end
         end
@@ -147,7 +153,7 @@ function Campos:draw()
 
         -- desenha a seleçao dos tipos de torre
         if not(self.escolha == 0) then
-            if self.selecao then
+            if self.selecao and not(self.opcoes[self.escolha].criada) then
             -- raio de escolha
             love.graphics.circle("line", self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth / 2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight / 2, self.raioS)
             -- opçoes

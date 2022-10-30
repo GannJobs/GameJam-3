@@ -128,7 +128,7 @@ function Campos:update(dt)
         if Range(self.opcoes[i].Traio, enemy.raio, self.opcoes[i].Vrange, enemy.V) then
             print("no range")
             if cont > 1 and enemy.vida > 0 then -- damage
-                enemy.vida = enemy.vida - 3
+                enemy.vida = enemy.vida - 8
                 cont = 0
             end
         end

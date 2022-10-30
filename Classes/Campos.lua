@@ -92,7 +92,7 @@ function Campos:update(dt)
                 print("abrir selecao da casa"..self.escolha)
             end
         else
-            if love.mouse.isDown(1, 2, 3) and self.Nselecionando then
+            if love.mouse.isDown(1, 2, 3) and self.selecao then
                 print("fechar selecao da casa"..self.escolha)
                 self.selecao = false
             end
@@ -100,9 +100,10 @@ function Campos:update(dt)
     end
 
         if self.selecao then
-            if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty) then
+            if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty)then
                 print("encima da escolha do slot "..self.escolha)
-                if love.mouse.isDown(1, 2, 3) then
+                if love.mouse.isDown(1, 2, 3) and hero.dinheiro >= 80 then
+                    hero.dinheiro = hero.dinheiro - 80
                     print("torre criada")
                     self.opcoes[self.escolha] = {
                         Tx = self.slots[self.escolha].Sx,

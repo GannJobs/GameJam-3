@@ -34,6 +34,15 @@ function Enemy:Morte()
         self.y = 0
         self.raio = 0
     end
+    -- causa dano ao jogador
+    if self.y + self.raio > love.graphics.getHeight() then
+        map.vidas = map.vidas - 1
+        self.vivo = false
+        self.speed = 0
+        self.x = 0
+        self.y = 0
+        self.raio = 0
+    end
 end
 
 function Enemy:draw()

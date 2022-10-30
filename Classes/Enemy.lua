@@ -47,9 +47,9 @@ end
 
 function Enemy:draw()
     if(self.vida > 0) then
-        love.graphics.setColor(0, 255, 0)
+        --love.graphics.setColor(0, 255, 0)
         love.graphics.circle("line", self.x, self.y, self.raio)
-        love.graphics.setColor(255,0,0)
+        --love.graphics.setColor(255,0,0)
         love.graphics.rectangle("fill", self.x - self.raio, self.y - 40, self.vida, 10)
     end
 end

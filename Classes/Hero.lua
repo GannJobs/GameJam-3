@@ -53,7 +53,7 @@ function Hero:Move(dt)
 end
 
 function Hero:draw()
-    love.graphics.setColor(0, 0, 255)
+    --love.graphics.setColor(0, 0, 255)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     --sword
     --love.graphics.draw(self.espada.imagem, self.espada.x, self.espada.y, self.espada.ang)

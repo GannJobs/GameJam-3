@@ -18,6 +18,7 @@ function Campos:new()
     for i = 1, 6 do
         if i < 4 then  -- esquerda
             self.slots[i] = {
+                img = love.graphics.newImage("Recursos/Imagens/BaseTorre.png"),
                 Sx = self.xE,
                 Sy = self.y + y,
                 Swidth = self.width,
@@ -26,6 +27,7 @@ function Campos:new()
         y = y + 200
         else           -- direita
             self.slots[i] = {
+                img = love.graphics.newImage("Recursos/Imagens/BaseTorre.png"),
                 Sx = self.xD,
                 Sy = self.y + y2,
                 Swidth = self.width,
@@ -108,6 +110,7 @@ function Campos:update(dt)
                     hero.dinheiro = hero.dinheiro - 80
                     print("torre criada")
                     self.opcoes[self.escolha] = {
+                        img = love.graphics.newImage("Recursos/Imagens/BaseTorre-2.png.png"),
                         Tx = self.slots[self.escolha].Sx,
                         Ty = self.slots[self.escolha].Sy,
                         Twidth = 50,
@@ -123,7 +126,6 @@ function Campos:update(dt)
             end
         else
             self.selecao = false
-            print("Logo vem o Up...")
             self.escolha = 0
         end
 
@@ -149,8 +151,8 @@ function Campos:draw()
 
     for i = 1, 6 do
 
-        love.graphics.rectangle("line", self.slots[i].Sx, self.slots[i].Sy, self.slots[i].Swidth, self.slots[i].Sheight)
-
+        --love.graphics.rectangle("line", self.slots[i].Sx, self.slots[i].Sy, self.slots[i].Swidth, self.slots[i].Sheight)
+        love.graphics.draw(self.slots[i].img, self.slots[i].Sx - self.slots[i].Swidth + 7, self.slots[i].Sy - self.slots[i].Sheight + 8)
         -- desenha a seleçao dos tipos de torre
         if not(self.escolha == 0) then
             if self.selecao and not(self.opcoes[self.escolha].criada) then
@@ -166,15 +168,15 @@ function Campos:draw()
     for i = 1, 6 do
         if self.opcoes[i].criada  then
         -- torre
-            love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty, self.opcoes[i].Twidth, self.opcoes[i].Theight)
-            love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty - self.opcoes[i].Theight, self.opcoes[i].Twidth, self.opcoes[i].Theight)
-
+            --love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty, self.opcoes[i].Twidth, self.opcoes[i].Theight)
+            --love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty - self.opcoes[i].Theight, self.opcoes[i].Twidth, self.opcoes[i].Theight)
+            love.graphics.draw(self.opcoes[i].img, self.opcoes[i].Tx - self.opcoes[i].Twidth + 11, self.opcoes[i].Ty - self.opcoes[i].Theight + 12)
             -- range
             -- love.graphics.circle("line", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty + self.opcoes[i].Theight / 2, self.opcoes[i].Traio)
             love.graphics.circle("line", self.opcoes[i].Vrange.x , self.opcoes[i].Vrange.y, self.opcoes[i].Traio)
 
             -- olho da torre
-            love.graphics.circle("fill", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, 5)
+            --love.graphics.circle("fill", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, 5)
 
             -- ataque da torre laser
             if Range(self.opcoes[i].Traio, enemy.raio, self.opcoes[i].Vrange, enemy.V) then

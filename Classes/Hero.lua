@@ -7,7 +7,7 @@ function Hero:new()
     self.y = love.graphics.getHeight() / 2 - self.height / 2
     self.speed = 200
 
-    self.dinheiro = 100
+    self.dinheiro = 800
     --espada
     -- self.espada = {
     --     imagem = love.graphics.newImage("recursos/imagens/sword1.png"),

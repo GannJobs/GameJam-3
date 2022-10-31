@@ -10,6 +10,7 @@ function Campos:new()
     self.img1 = love.graphics.newImage("Recursos/Imagens/TorreLaser.png")
     self.img2 = love.graphics.newImage("Recursos/Imagens/TorreLevel2.png")
     self.imgO = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png")
+    self.img2O =  love.graphics.newImage("Recursos/Imagens/TorreLevel2Op.png")
 
     --slots de torre
 
@@ -52,7 +53,7 @@ function Campos:new()
     local yo = 0
     local yo2 = 0
 
-    for i = 1, 6 do
+    for i = 1, 6 do -- torres base
         if i < 4 then -- lado esquerdo
         self.opcoes[i] = {
             Timg = self.img1,
@@ -81,6 +82,34 @@ function Campos:new()
         yo2 = yo2 + 200
         end
     end
+
+    self.opcoes2 = {}
+
+    yo = 0
+    yo2 = 0
+
+    for i = 1, 6 do -- torre lvl 2
+        if i < 4 then -- lado esquerdo
+        self.opcoes2[i] = {
+            T2img = self.img2O,
+            T2x = self.xE,
+            T2y = self.y - self.raioS + yo,
+            T2width = 50,
+            T2height = 50,
+        }
+        yo = yo + 200
+        else          -- lado direito
+            self.opcoes2[i] = {
+                T2img = self.img2O,
+                T2x = self.xD,
+                T2y = self.y - self.raioS + yo2,
+                T2width = 50,
+                T2height = 50,
+            }
+        yo2 = yo2 + 200
+        end
+    end
+
     cont = 0
 end
 
@@ -96,6 +125,11 @@ function Campos:update(dt)
                 self.selecao = true
                 self.escolha = i
                 print("abrir selecao da casa"..self.escolha)
+                if self.opcoes[self.escolha].criada and self.opcoes[self.escolha].level == 2 then
+                    self.selecao = false
+                    self.escolha = 0
+                    print("fechou selecao da torre upada")
+                end
             end
         else
             if self.selecao and not(Range2(1, self.raioS, love.mouse.getX(), love.mouse.getY(), self.slots[self.escolha].Sx, self.slots[self.escolha].Sy)) then
@@ -129,34 +163,23 @@ function Campos:update(dt)
                     self.escolha = 0
                 end
             end
-        else
-            self.selecao = false
-            print("selecao fechada da casa "..self.escolha)
-            self.escolha = 0
         end
-        -- if self.selecao and self.opcoes[self.escolha].criada then
-        --     if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty) and not(self.opcoes[self.escolha].criada) then
-        --         print("encima da escolha do slot "..self.escolha)
-        --         if love.mouse.isDown(1, 2, 3) and hero.dinheiro >= 120 then
-        --             hero.dinheiro = hero.dinheiro - 120
-        --             print("torre criada")
-        --             self.opcoes[self.escolha] = {
-        --                 Timg = self.img2,
-        --                 Tx = self.slots[self.escolha].Sx,
-        --                 Ty = self.slots[self.escolha].Sy,
-        --                 Twidth = 50,
-        --                 Theight = 50,
-        --                 Traio = 200,
-        --                 criada = true,
-        --                 Vrange = Vetor(self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth/2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight/2),
-        --                 level = 2
-        --             }
-        --             self.selecao = false
-        --             print("selecao fechada da casa "..self.escolha)
-        --             self.escolha = 0
-        --         end
-        --     end
-        -- end
+
+        if self.selecao and self.opcoes[self.escolha].criada and self.opcoes[self.escolha].level == 1 then
+            if MouseSelection(self.opcoes2[self.escolha].T2width, self.opcoes2[self.escolha].T2height, self.opcoes2[self.escolha].T2x, self.opcoes2[self.escolha].T2y) then
+                print("encima da escolha do slot "..self.escolha)
+                if love.mouse.isDown(1, 2, 3) and hero.dinheiro >= 120 then
+                    hero.dinheiro = hero.dinheiro - 120
+                    print("torre criada")
+                    self.opcoes[self.escolha].Timg = self.img2
+                    self.opcoes[self.escolha].Traio = 220
+                    self.opcoes[self.escolha].level = 2
+                    self.selecao = false
+                    print("selecao fechada da casa "..self.escolha)
+                    self.escolha = 0
+                end
+            end
+        end
 
     -- ataque de torre
 
@@ -202,13 +225,13 @@ function Campos:draw()
             end
 
             --upar a torre
-            -- if self.opcoes[self.escolha].criada then 
-            -- -- raio de escolha
-            -- love.graphics.circle("line", self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12, self.raioS)
+            if self.opcoes[self.escolha].criada then 
+            -- love.graphics.rectangle("fill", self.opcoes2[self.escolha].T2x, self.opcoes2[self.escolha].T2y, self.opcoes2[i].T2width, self.opcoes2[i].T2height)
+            -- raio de escolha
+            love.graphics.circle("line", self.opcoes[self.escolha].Tx + 25, self.opcoes[self.escolha].Ty + 25, self.raioS)
             -- -- opçoes
-            -- love.graphics.draw(self.img2, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - 40 )
-            -- love.graphics.print("R$ 120", self.opcoes[self.escolha].Tx+5, self.opcoes[self.escolha].Ty - 30)
-            -- end
+            love.graphics.draw(self.img2O, self.opcoes2[self.escolha].T2x - 39, self.opcoes2[self.escolha].T2y - 36)
+            end
         end
     end
 

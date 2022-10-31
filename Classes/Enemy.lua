@@ -1,9 +1,10 @@
 Enemy = Classe:extend()
 
 function Enemy:new()
+    self.img = love.graphics.newImage("Recursos/Imagens/InimigoMedio.png")
     self.raio = 25
-    self.x = love.graphics.getWidth() / 2
-    -- self.x = love.math.random(love.graphics.getWidth()/2 - 80, love.graphics.getWidth()/2 + 80)
+    --self.x = love.graphics.getWidth() / 2
+    self.x = love.math.random(love.graphics.getWidth()/2 - 80, love.graphics.getWidth()/2 + 80)
     self.y = 0 - self.raio
     self.speed = 70
     self.V = Vetor(self.x, self.y)
@@ -48,8 +49,9 @@ end
 function Enemy:draw()
     if(self.vida > 0) then
         --love.graphics.setColor(0, 255, 0)
-        love.graphics.circle("line", self.x, self.y, self.raio)
+        --love.graphics.circle("line", self.x, self.y, self.raio)
+        love.graphics.draw(self.img, self.x - self.raio, self.y - self.raio)
         --love.graphics.setColor(255,0,0)
-        love.graphics.rectangle("fill", self.x - self.raio, self.y - 40, self.vida, 10)
+        love.graphics.rectangle("fill", self.x - self.raio, self.y - 30, self.vida, 10)
     end
 end

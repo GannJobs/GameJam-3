@@ -7,6 +7,9 @@ function Campos:new()
     self.xE = love.graphics.getWidth() / 2 - self.width / 2 - 160
     self.xD = love.graphics.getWidth() / 2 + self.width / 2 + 110
     self.y = self.height + 150
+    self.img1 = love.graphics.newImage("Recursos/Imagens/TorreLaser.png")
+    self.img2 = love.graphics.newImage("Recursos/Imagens/TorreLevel2.png")
+    self.imgO = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png")
 
     --slots de torre
 
@@ -52,33 +55,32 @@ function Campos:new()
     for i = 1, 6 do
         if i < 4 then -- lado esquerdo
         self.opcoes[i] = {
-            img = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png"),
+            Timg = self.img1,
             Tx = self.xE,
             Ty = self.y - self.raioS + yo,
             Twidth = 50,
             Theight = 50,
             Traio = 0,
             criada = false,
-            Vrange = Vetor(0,0)
+            Vrange = Vetor(0,0),
+            level = 1
         }
         yo = yo + 200
-        else           -- lado direito
+        else          -- lado direito
             self.opcoes[i] = {
-                img = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png"),
+                Timg = self.img1,
                 Tx = self.xD,
                 Ty = self.y - self.raioS + yo2,
                 Twidth = 50,
                 Theight = 50,
                 Traio = 0,
                 criada = false,
-                Vrange = Vetor(0,0)
+                Vrange = Vetor(0,0),
+                level = 1
             }
         yo2 = yo2 + 200
         end
     end
-
-    
-
     cont = 0
 end
 
@@ -112,14 +114,15 @@ function Campos:update(dt)
                     hero.dinheiro = hero.dinheiro - 80
                     print("torre criada")
                     self.opcoes[self.escolha] = {
-                        img = love.graphics.newImage("Recursos/Imagens/TorreLaser.png"),
+                        Timg = self.img1,
                         Tx = self.slots[self.escolha].Sx,
                         Ty = self.slots[self.escolha].Sy,
                         Twidth = 50,
                         Theight = 50,
                         Traio = 200,
                         criada = true,
-                        Vrange = Vetor(self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth/2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight/2)
+                        Vrange = Vetor(self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth/2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight/2),
+                        level = 1
                     }
                     self.selecao = false
                     print("selecao fechada da casa "..self.escolha)
@@ -128,8 +131,32 @@ function Campos:update(dt)
             end
         else
             self.selecao = false
+            print("selecao fechada da casa "..self.escolha)
             self.escolha = 0
         end
+        -- if self.selecao and self.opcoes[self.escolha].criada then
+        --     if MouseSelection(self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight, self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty) and not(self.opcoes[self.escolha].criada) then
+        --         print("encima da escolha do slot "..self.escolha)
+        --         if love.mouse.isDown(1, 2, 3) and hero.dinheiro >= 120 then
+        --             hero.dinheiro = hero.dinheiro - 120
+        --             print("torre criada")
+        --             self.opcoes[self.escolha] = {
+        --                 Timg = self.img2,
+        --                 Tx = self.slots[self.escolha].Sx,
+        --                 Ty = self.slots[self.escolha].Sy,
+        --                 Twidth = 50,
+        --                 Theight = 50,
+        --                 Traio = 200,
+        --                 criada = true,
+        --                 Vrange = Vetor(self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth/2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight/2),
+        --                 level = 2
+        --             }
+        --             self.selecao = false
+        --             print("selecao fechada da casa "..self.escolha)
+        --             self.escolha = 0
+        --         end
+        --     end
+        -- end
 
     -- ataque de torre
 
@@ -140,14 +167,19 @@ function Campos:update(dt)
             if self.opcoes[i].criada  then
                 if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
                     if cont > 1 and enemy.inimigos[a].Ivida >= 0 then -- damage
-                        enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 20
-                        print(enemy.inimigos[a].Ivida)
-                        cont = 0
+                        if self.opcoes[i].level == 1 then
+                            enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 12
+                            print(enemy.inimigos[a].Ivida)
+                            cont = 0
+                        else
+                            enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 20
+                            print(enemy.inimigos[a].Ivida)
+                            cont = 0
+                        end
                     end
                 end
             end
         end
-    end
 
 end
 
@@ -165,10 +197,18 @@ function Campos:draw()
             -- raio de escolha
             love.graphics.circle("line", self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth / 2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight / 2, self.raioS)
             -- opçoes
-            -- love.graphics.rectangle("fill", self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty, self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight)
-            love.graphics.draw(self.opcoes[self.escolha].img, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12)
+            love.graphics.draw(self.imgO, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12)
             love.graphics.print("R$ 80", self.opcoes[self.escolha].Tx+5, self.opcoes[self.escolha].Ty - 30)
             end
+
+            --upar a torre
+            -- if self.opcoes[self.escolha].criada then 
+            -- -- raio de escolha
+            -- love.graphics.circle("line", self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12, self.raioS)
+            -- -- opçoes
+            -- love.graphics.draw(self.img2, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - 40 )
+            -- love.graphics.print("R$ 120", self.opcoes[self.escolha].Tx+5, self.opcoes[self.escolha].Ty - 30)
+            -- end
         end
     end
 
@@ -176,17 +216,10 @@ function Campos:draw()
     for i = 1, 6 do
         if self.opcoes[i].criada  then
         -- torre
-            --love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty, self.opcoes[i].Twidth, self.opcoes[i].Theight)
-            --love.graphics.rectangle("fill", self.opcoes[i].Tx, self.opcoes[i].Ty - self.opcoes[i].Theight, self.opcoes[i].Twidth, self.opcoes[i].Theight)
-            love.graphics.draw(self.opcoes[i].img, self.opcoes[i].Tx - self.opcoes[i].Twidth + 11, self.opcoes[i].Ty - self.opcoes[i].Theight + 12)
-            -- range
-            -- love.graphics.circle("line", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty + self.opcoes[i].Theight / 2, self.opcoes[i].Traio)
+            love.graphics.draw(self.opcoes[i].Timg, self.opcoes[i].Tx - self.opcoes[i].Twidth + 11, self.opcoes[i].Ty - self.opcoes[i].Theight + 12)
             love.graphics.circle("line", self.opcoes[i].Vrange.x , self.opcoes[i].Vrange.y, self.opcoes[i].Traio)
 
-            -- olho da torre
-            --love.graphics.circle("fill", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, 5)
-
-            -- ataque da torre laser
+        -- ataque da torre laser
             for a = 1, 20 do
                 if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
                     love.graphics.line(self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, enemy.inimigos[a].IV.x, enemy.inimigos[a].IV.y)
@@ -195,5 +228,5 @@ function Campos:draw()
         end
     end
 
-    -- evolui a torre
+    end
 end

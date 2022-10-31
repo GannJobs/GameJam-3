@@ -134,18 +134,20 @@ function Campos:update(dt)
     -- ataque de torre
 
     cont = cont + dt
-
+    
+    for i = 1, 6 do
         for a = 1, 20 do
-            for i = 1, 6 do
-            if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
-                if cont > 1 and enemy.inimigos[a].Ivida >= 0 then -- damage
-                    enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 15
-                    print(enemy.inimigos[a].Ivida)
-                    cont = 0
+            if self.opcoes[i].criada  then
+                if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
+                    if cont > 1 and enemy.inimigos[a].Ivida >= 0 then -- damage
+                        enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 20
+                        print(enemy.inimigos[a].Ivida)
+                        cont = 0
+                    end
                 end
             end
         end
-        end
+    end
 
 end
 
@@ -165,6 +167,7 @@ function Campos:draw()
             -- opçoes
             -- love.graphics.rectangle("fill", self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty, self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight)
             love.graphics.draw(self.opcoes[self.escolha].img, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12)
+            love.graphics.print("R$ 80", self.opcoes[self.escolha].Tx+5, self.opcoes[self.escolha].Ty - 30)
             end
         end
     end

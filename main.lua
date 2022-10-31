@@ -32,8 +32,8 @@ function love.draw()
     map:draw()
     enemy:draw()
     tower:draw()
-    hero:draw()
     campos:draw()
+    hero:draw()
 end
 
 function Range(a, b, Va, Vb)

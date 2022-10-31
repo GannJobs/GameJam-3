@@ -23,6 +23,7 @@ function Map:draw()
             love.graphics.print("Vidas Restantes: " .. self.vidas, 50, 50)
             love.graphics.print("Dinheiro: " .. hero.dinheiro, 50, 70)
         else
+            love.graphics.setNewFont(20)
             love.graphics.print(" Você Sobreviveu ao ataque, Parabéns!", love.graphics.getWidth()/2 - 180, love.graphics.getHeight()/2 - 50)
         end
     end

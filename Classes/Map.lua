@@ -1,6 +1,7 @@
 Map = Classe:extend()
 
 function Map:new()
+    self.BG = love.graphics.newImage("Recursos/Imagens/Fundo.png")
     self.vidas = 20
 end
 
@@ -16,4 +17,5 @@ function Map:draw()
     love.graphics.print("Waves: " .. enemy.wave, 50, 90)
     love.graphics.line(love.graphics.getWidth()/2 - 80, 0, love.graphics.getWidth()/2 - 80, love.graphics.getHeight())
     love.graphics.line(love.graphics.getWidth()/2 + 80, 0, love.graphics.getWidth()/2 + 80, love.graphics.getHeight())
+    love.graphics.draw(self.BG, 0, 0)
 end

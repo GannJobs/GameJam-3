@@ -52,6 +52,7 @@ function Campos:new()
     for i = 1, 6 do
         if i < 4 then -- lado esquerdo
         self.opcoes[i] = {
+            img = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png"),
             Tx = self.xE,
             Ty = self.y - self.raioS + yo,
             Twidth = 50,
@@ -63,6 +64,7 @@ function Campos:new()
         yo = yo + 200
         else           -- lado direito
             self.opcoes[i] = {
+                img = love.graphics.newImage("Recursos/Imagens/OpcaoTorreLaser.png"),
                 Tx = self.xD,
                 Ty = self.y - self.raioS + yo2,
                 Twidth = 50,
@@ -110,7 +112,7 @@ function Campos:update(dt)
                     hero.dinheiro = hero.dinheiro - 80
                     print("torre criada")
                     self.opcoes[self.escolha] = {
-                        img = love.graphics.newImage("Recursos/Imagens/BaseTorre-2.png.png"),
+                        img = love.graphics.newImage("Recursos/Imagens/TorreLaser.png"),
                         Tx = self.slots[self.escolha].Sx,
                         Ty = self.slots[self.escolha].Sy,
                         Twidth = 50,
@@ -159,7 +161,8 @@ function Campos:draw()
             -- raio de escolha
             love.graphics.circle("line", self.slots[self.escolha].Sx + self.slots[self.escolha].Swidth / 2, self.slots[self.escolha].Sy + self.slots[self.escolha].Sheight / 2, self.raioS)
             -- opçoes
-            love.graphics.rectangle("fill", self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty, self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight)
+            -- love.graphics.rectangle("fill", self.opcoes[self.escolha].Tx, self.opcoes[self.escolha].Ty, self.opcoes[self.escolha].Twidth, self.opcoes[self.escolha].Theight)
+            love.graphics.draw(self.opcoes[self.escolha].img, self.opcoes[self.escolha].Tx - self.opcoes[self.escolha].Twidth + 11, self.opcoes[self.escolha].Ty - self.opcoes[self.escolha].Theight + 12)
             end
         end
     end

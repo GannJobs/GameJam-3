@@ -15,7 +15,15 @@ function Map:draw()
     --love.graphics.line(love.graphics.getWidth()/2 - 80, 0, love.graphics.getWidth()/2 - 80, love.graphics.getHeight())
     --love.graphics.line(love.graphics.getWidth()/2 + 80, 0, love.graphics.getWidth()/2 + 80, love.graphics.getHeight())
     love.graphics.draw(self.BG, 0, 0)
-    love.graphics.print("Vidas Restantes: " .. self.vidas, 50, 50)
-    love.graphics.print("Dinheiro: " .. hero.dinheiro, 50, 70)
-    --love.graphics.print("Waves: " .. enemy.wave, 50, 90)
+    if self.vidas <= 0 then
+        love.graphics.setNewFont(20)
+        love.graphics.print("--Suas vidas acabaram, Você Perdeu!--", love.graphics.getWidth()/2 - 180, love.graphics.getHeight()/2 - 50)
+    else
+        if enemy.inimigos[20].Ivivo then
+            love.graphics.print("Vidas Restantes: " .. self.vidas, 50, 50)
+            love.graphics.print("Dinheiro: " .. hero.dinheiro, 50, 70)
+        else
+            love.graphics.print(" Você Sobreviveu ao ataque, Parabéns!", love.graphics.getWidth()/2 - 180, love.graphics.getHeight()/2 - 50)
+        end
+    end
 end

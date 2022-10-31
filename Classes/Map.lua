@@ -17,5 +17,5 @@ function Map:draw()
     love.graphics.draw(self.BG, 0, 0)
     love.graphics.print("Vidas Restantes: " .. self.vidas, 50, 50)
     love.graphics.print("Dinheiro: " .. hero.dinheiro, 50, 70)
-    love.graphics.print("Waves: " .. enemy.wave, 50, 90)
+    --love.graphics.print("Waves: " .. enemy.wave, 50, 90)
 end

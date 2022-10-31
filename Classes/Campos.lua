@@ -135,15 +135,17 @@ function Campos:update(dt)
 
     cont = cont + dt
 
-    for i = 1, 6 do
-        if Range(self.opcoes[i].Traio, enemy.raio, self.opcoes[i].Vrange, enemy.V) then
-            print("no range")
-            if cont > 1 and enemy.vida > 0 then -- damage
-                enemy.vida = enemy.vida - 12
-                cont = 0
+        for a = 1, 20 do
+            for i = 1, 6 do
+            if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
+                if cont > 1 and enemy.inimigos[a].Ivida >= 0 then -- damage
+                    enemy.inimigos[a].Ivida = enemy.inimigos[a].Ivida - 15
+                    print(enemy.inimigos[a].Ivida)
+                    cont = 0
+                end
             end
         end
-    end
+        end
 
 end
 
@@ -182,8 +184,10 @@ function Campos:draw()
             --love.graphics.circle("fill", self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, 5)
 
             -- ataque da torre laser
-            if Range(self.opcoes[i].Traio, enemy.raio, self.opcoes[i].Vrange, enemy.V) then
-                love.graphics.line(self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, enemy.V.x, enemy.V.y)
+            for a = 1, 20 do
+                if Range(self.opcoes[i].Traio, enemy.inimigos[a].Iraio, self.opcoes[i].Vrange, enemy.inimigos[a].IV) then
+                    love.graphics.line(self.opcoes[i].Tx + self.opcoes[i].Twidth / 2, self.opcoes[i].Ty - self.opcoes[i].Theight / 2, enemy.inimigos[a].IV.x, enemy.inimigos[a].IV.y)
+                end
             end
         end
     end

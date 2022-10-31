@@ -3,17 +3,11 @@ Enemy = Classe:extend()
 function Enemy:new()
     self.img = love.graphics.newImage("Recursos/Imagens/InimigoMedio.png")
     self.raio = 25
-    --self.x = love.graphics.getWidth() / 2
-    --Ex = love.math.random(love.graphics.getWidth()/2 - 80, love.graphics.getWidth()/2 + 80)
-    --print(Ex)
-    --self.x = Ex
     self.y = 100 - self.raio
     self.speed = 70
     self.V = Vetor(self.x, self.y)
     self.vida = 50
     self.vivo = true
-
-    --self.wave = 3
 
     self.inimigos = {}
     y = 0
@@ -42,18 +36,12 @@ function Enemy:update(dt)
     self:Morte()
 end
 
--- function Enemy:Move(dt)
---     -- preparar parte para movimentar em direção ao hero ou as unidades das barracas
---     self.y = self.y + self.speed * dt
---     self.V.y = self.y
--- end
-
 function Enemy:Morte()
     -- drop de dinheiro
     for i = 1, 20 do 
         if self.inimigos[i].Ivida <= 0 and self.inimigos[i].Ivivo then
             self.inimigos[i].Ivivo = false
-            hero.dinheiro = hero.dinheiro + 70
+            map.dinheiro = map.dinheiro + 70
             self.inimigos[i].Ispeed = 0
             self.inimigos[i].Ix = 0
             self.inimigos[i].Iy = 0
@@ -74,10 +62,7 @@ end
 function Enemy:draw()
     for i=1, 20 do
         if(self.inimigos[i].Ivida > 0 and self.inimigos[i].Ivivo) then
-            --love.graphics.setColor(0, 255, 0)
-            --love.graphics.circle("line", self.x, self.y, self.raio)
             love.graphics.draw(self.inimigos[i].Iimg, self.inimigos[i].Ix - self.inimigos[i].Iraio, self.inimigos[i].Iy - self.inimigos[i].Iraio)
-            --love.graphics.setColor(255,0,0)
             love.graphics.rectangle("fill", self.inimigos[i].Ix - self.inimigos[i].Iraio, self.inimigos[i].Iy - 40, self.inimigos[i].Ivida, 10)
         end
     end
